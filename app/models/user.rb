@@ -1,4 +1,10 @@
 class User < ApplicationRecord
+  acts_as_paranoid
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
+  devise :database_authenticatable, :registerable,
+    :recoverable, :rememberable, :validatable
   mount_uploader :avatar, AvatarUploader
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
@@ -11,11 +17,6 @@ class User < ApplicationRecord
   enum role: {guess: 0, user: 1, admin: 2}
   validates :name,  presence: true,
    length: {maximum: Settings.name_maximum_length}
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :email, presence: true,
-   length: {maximum: Settings.email_maximum_length},
-   format: {with: VALID_EMAIL_REGEX},
-  uniqueness: {case_sensitive: false}
   VALID_PHONE_REGEX = /\A[+-]?\d+\z/i
   validates :phone, presence: true,
    length:
@@ -32,41 +33,11 @@ class User < ApplicationRecord
     maximum: Settings.bank_account_maximum_length
   },
    format: {with: VALID_BANK_ACCOUNT_REGEX}
-  has_secure_password
-  validates :password, presence: true,
-   length: {minimum: Settings.password_minimum_length}, on: :create
-
-  attr_accessor :remember_token
-
-  def self.digest string
-    if ActiveModel::SecurePassword.min_cost
-      cost = BCrypt::Engine::MIN_COST
-    else
-      BCrypt::Engine.cost
+  def self.from_omniauth auth
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.name = auth.info.name
     end
-    BCrypt::Password.create(string, cost: cost)
-  end
-
-  def self.new_token
-    SecureRandom.urlsafe_base64
-  end
-
-  def downcase_email
-    email.downcase!
-  end
-
-  def remember
-    self.remember_token = User.new_token
-    update_attribute(:remember_digest, User.digest(remember_token))
-  end
-
-  def forget
-    update_attribute(:remember_digest, nil)
-  end
-
-  def authenticated? remember_digest, token
-    # send("#{attribute}_digest")
-    return false unless remember_digest
-    BCrypt::Password.new(remember_digest).is_password?(token)
   end
 end
