@@ -1,4 +1,4 @@
 $("#R<%= @like.review_id%>L").html('<i class="fa fa-thumbs-up icon"></i> <%= @like_count%>');
-$("#R<%= @like.review_id%>L").attr("href", "/likes/new?id=<%= @like.review_id %>");
-$("#R<%= @like.review_id%>L").removeAttr("data-method");
+$("#R<%= @like.review_id%>L").attr("href", "/likes?id=<%= @like.review_id %>");
+$("#R<%= @like.review_id%>L").attr("data-method", "POST");
 $("#R<%= @like.review_id%>L").attr("class", "btn-default stat-item");

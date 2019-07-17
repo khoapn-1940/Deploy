@@ -2,6 +2,7 @@ en:
   views:
     title:
       home : "Home"
+      my_information : "My Information"
       manage_user : "Manage User"
       manage_tour : "Manage Tour"
       manage_booking_request : "Manage Booking Request"
@@ -76,18 +77,6 @@ en:
       notice : "NOTICE"
       not_include_tax : "This revenue isn't contain tax"
       sun : "Sun* Asterisk"
-      reported_time : "Reported Time"
-      date_of_invoice : "Date of Invoice: "
-      due_date : "Due Date: "
-      total : "TOTAL"
-      registered_at : "Registered At:"
-      phone_number : "Phone Number: "
-      total_rating : "Total Rating: "
-      total_like : "Total Like: "
-      total_review : "Total Review: "
-      admin : "Admin"
-      user : "User"
-      guest : "Guest"
   validate:
     validate_time : "has already passed"
     validate_time_end : "Time end must after time strat"

@@ -1,6 +1,7 @@
 class RatingsController < ApplicationController
   before_action :load_rating, only: [:new]
-  def new
+  load_and_authorize_resource
+  def create
     load_rating
     if @rating = current_user.ratings.create(
       star: params[:star], tour_id: params[:tour_id]

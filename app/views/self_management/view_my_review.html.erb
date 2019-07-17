@@ -3,7 +3,7 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <div class="container">
   <div class="row">
-    <%= will_paginate @my_review %>
+    <%= paginate @my_review %>
     <div class="searchable-container">
       <% @my_review.each do |review| %>
         <div class="items col-xs-12 col-sm-6 col-md-6 col-lg-6 clearfix" id="R<%= review.id %>">
@@ -18,7 +18,7 @@
             <h4> <%= review.content %></h4>
             <div style="display: inline-block">
               <% if liked? review.id  %>
-                <%= link_to new_like_path(id: review.id), :class=>"btn-default stat-item", :id => "R#{review.id}L", :remote => true do %>
+                <%= link_to likes_path(id: review.id),method: :POST, :class=>"btn-default stat-item", :id => "R#{review.id}L", :remote => true do %>
                   <i class="fa fa-thumbs-up icon"></i> <%= review.likes.count%>
                 <% end%>
               <% else%>
@@ -26,7 +26,7 @@
                   <i class="fa fa-thumbs-up icon"></i> <%= review.likes.count%>
                 <% end %>
               <%end%> &nbsp;
-              <%= link_to comment_path(id: review.id), method: "DELETE", :class=>"glyphicon glyphicon-trash" , :remote => true do %>
+              <%= link_to review_path(id: review.id), method: "DELETE", :class=>"glyphicon glyphicon-trash" , :remote => true do %>
               <% end %>
             </div>
           </div>

@@ -1,5 +1,6 @@
 class PaymentsController < ApplicationController
   def create
+    authorize! :create, Payment
     @booking = current_user.bookings.find_by_id params[:payment][:booking_id]
     process_payment
     if @payment = @booking.payments.create(payment_params)

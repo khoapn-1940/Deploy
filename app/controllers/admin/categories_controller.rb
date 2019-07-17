@@ -1,9 +1,10 @@
 class Admin::CategoriesController < Admin::BaseController
   before_action :load_category, only: :destroy
-
   def index
-    @categories = Category.order_by_time_desc.paginate(
-      page: params[:page], per_page: Settings.category_per_page
+    @categories = Category.order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.category_per_page
     )
   end
 

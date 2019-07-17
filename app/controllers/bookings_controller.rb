@@ -1,6 +1,7 @@
 class BookingsController < ApplicationController
   before_action :load_booking, only: [:destroy]
-  def new
+  load_and_authorize_resource
+  def create
     load_booking_tour_data
     handle_booking_tour
     redirect_to view_my_booking_path

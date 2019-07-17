@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
   before_action :load_like, only: [:destroy]
-  def new
+  load_and_authorize_resource
+  def create
     @like = current_user.likes.create(review_id: params[:id])
     if @like.save
       @like_count = @like.review.likes.count

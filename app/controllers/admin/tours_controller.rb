@@ -4,7 +4,9 @@ class Admin::ToursController < Admin::BaseController
   end
 
   def index
-    @tour = Tour.order_by_time_desc.paginate(page: params[:page], per_page: 15)
+    @tour = Tour.order_by_time_desc.page(params[:page]).per(
+      Settings.tour_per_page
+    )
   end
 
   def create

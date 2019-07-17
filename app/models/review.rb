@@ -1,4 +1,5 @@
 class Review < ApplicationRecord
+  acts_as_paranoid
   belongs_to :user
   belongs_to :tour
   has_many :likes, dependent: :destroy

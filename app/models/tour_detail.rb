@@ -1,4 +1,5 @@
 class TourDetail < ApplicationRecord
+  acts_as_paranoid
   belongs_to :user
   belongs_to :tour
   has_many :bookings, dependent: :destroy

@@ -6,7 +6,7 @@
       </div>
       <div class="header-btn-edit">
         <% if @user == current_user%>
-          <%= link_to edit_user_path(current_user) do %>
+          <%= link_to edit_user_registration_path(current_user) do %>
             <i class="fa fa-edit"></i> <%= t("views.title.edit_profile") %>
           <% end%>
         <% end %>

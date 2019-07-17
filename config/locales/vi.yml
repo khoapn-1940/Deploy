@@ -2,6 +2,7 @@ vi:
   views:
     title:
       home : "Trang chủ"
+      my_information : "Tường Nhà Tôi"
       manage_user : "Quản lý Người Dùng"
       manage_tour : "Quản Lý Chuyến Đi"
       manage_booking_request : "Quản Lý Đặt Vé"
@@ -76,18 +77,6 @@ vi:
       notice : "CHÚ Ý"
       not_include_tax : "Doanh Thu Ko Bao Gồm Thuế"
       sun : "Sun* Asterisk"
-      reported_time : "Thời Gian Báo Cáo"
-      date_of_invoice : "Ngày Báo Cáo "
-      due_date : "Đến Ngày" "
-      total : "TỔNG CỘNG"
-      registered_at : "Đăng Ký Vào:"
-      phone_number : "Số Điện Thoại: "
-      total_rating : "Tổng Rating "
-      total_like : "Tổng Like: "
-      total_review : "Tổng Review: "
-      admin : "Ban Quản Trị"
-      user : "Người Dùng"
-      guest : "Khách"
   validate:
     validate_time : "Thời Gian Đã Qua"
     validate_time_end : "Thời Gian Sau Phải Sau Thời Gian Trước"

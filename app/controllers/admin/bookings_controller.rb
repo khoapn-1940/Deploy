@@ -1,8 +1,10 @@
 class Admin::BookingsController < Admin::BaseController
   before_action :load_booking, only: :destroy
   def index
-    @booking = Booking.order_by_time_desc.paginate(
-      page: params[:page], per_page: Settings.booking_per_page_admin
+    @booking = Booking.order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.booking_per_page_admin
     )
   end
 

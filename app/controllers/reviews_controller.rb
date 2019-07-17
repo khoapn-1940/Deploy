@@ -1,7 +1,7 @@
-class CommentsController < ApplicationController
+class ReviewsController < ApplicationController
   before_action :load_comment, only: :destroy
-
-  def new
+  def create
+    authorize! :create, Review
     @comment_tour = current_user.reviews.create(comment_params)
     if @comment_tour.save
       respond_to do |format|
@@ -15,6 +15,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
+    authorize! :destroy, Review
     delete_my_review_method
   end
   private

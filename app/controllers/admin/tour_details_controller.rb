@@ -5,8 +5,10 @@ class Admin::TourDetailsController < Admin::BaseController
   end
 
   def index
-    @tour_details = TourDetail.t_id(params[:id]).order_by_time_desc.paginate(
-      page: params[:page], per_page: Settings.tour_detail_per_page
+    @tour_details = TourDetail.t_id(params[:id]).order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.tour_detail_per_page
     )
   end
 

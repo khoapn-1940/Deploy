@@ -16,19 +16,19 @@
           <div class="rating">
             <div class="stars">
               <% if @self_star.nil? %>
-                <%= link_to new_rating_path(star: "1", tour_id: @tour_detail.tour.id), remote: true do %>
+                <%= link_to ratings_path(star: "1", tour_id: @tour_detail.tour.id), method: :POST, remote: true do %>
                   <span class="fa fa-star"></span>
                 <% end %>
-                <%= link_to new_rating_path(star: "2", tour_id: @tour_detail.tour.id), remote: true do %>
+                <%= link_to ratings_path(star: "2", tour_id: @tour_detail.tour.id), method: :POST, remote: true do %>
                   <span class="fa fa-star"></span>
                 <% end %>
-                <%= link_to new_rating_path(star: "3", tour_id: @tour_detail.tour.id), remote: true do %>
+                <%= link_to ratings_path(star: "3", tour_id: @tour_detail.tour.id), method: :POST, remote: true do %>
                   <span class="fa fa-star"></span>
                 <% end %>
-                <%= link_to new_rating_path(star: "4", tour_id: @tour_detail.tour.id), remote: true do %>
+                <%= link_to ratings_path(star: "4", tour_id: @tour_detail.tour.id), method: :POST, remote: true do %>
                   <span class="fa fa-star"></span>
                 <% end %>
-                <%= link_to new_rating_path(star: "5", tour_id: @tour_detail.tour.id), remote: true do %>
+                <%= link_to ratings_path(star: "5", tour_id: @tour_detail.tour.id), method: :POST, remote: true do %>
                   <span class="fa fa-star"></span>
                 <% end %>
               <% else %>
@@ -39,6 +39,7 @@
             </div>
             <span class="review-no"><%= @tour_detail.tour.reviews.all.count %> reviews</span>
           </div>
+          <%= social_share_button_tag(@tour_detail.tour.name) %>
           <p class="product-description"> <%= @tour_detail.tour.description %></p>
           <h4 class="price"> <%= t("views.tag.current_price") %> <span> <%= @tour_detail.price %> $ </span></h4>
           <p class="vote"> <%= t("views.tag.average") %>
@@ -54,7 +55,7 @@
             <span class="size" data-toggle="tooltip" title="small"><%= @tour_detail.time_end %></span>
           </h5>
           <div class="action" style="display: inline-block">
-            <%= form_for(@booking_tour, url: new_booking_path,method: :GET, authenticity_token: true) do |f| %>
+            <%= form_for(@booking_tour, url: bookings_path,method: :POST, authenticity_token: true) do |f| %>
               <%= f.text_field(:book_total, class: "add-to-cart", placeholder: "_______", style: "width:70px;") %>
               <%= f.hidden_field :tour_detail_id %>
               <%= button_tag(type: "submit", class: "like btn btn-default", style: "float:left") do %>
@@ -74,7 +75,7 @@
 <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
 <div class="container">
   <h2 class="page-header">Comments</h2>
-  <%= form_for(@self_review, url: new_comment_path,method: :GET, authenticity_token: true, remote: true) do |f| %>
+  <%= form_for(@self_review, url: reviews_path ,method: :POST, authenticity_token: true, remote: true) do |f| %>
     <div class="input-group">
       <%= f.text_field(:content, class: "form-control", placeholder: "Leave a comment ", style: "height: 50px;")%>
       <%= f.hidden_field :tour_id %>
@@ -87,7 +88,7 @@
   <% end%>
   <div class="col-sm-16" id="listcomment">
     <% unless @reviews.nil? %>
-      <%= will_paginate @reviews %>
+      <%= paginate @reviews %>
       <% @reviews.each do |review| %>
         <div class="panel panel-white post panel-shadow" id="R<%= review.id%>">
           <div class="post-heading">
@@ -112,11 +113,11 @@
             <p> <%= review.content%> </p>
             <div class="stats">
               <% if liked? review.id %>
-                <%= link_to new_like_path(id: review.id), class: "btn-default stat-item", id: "R#{review.id}L", remote: true do %>
+                <%= link_to likes_path(id: review.id),method: :POST, class: "btn-default stat-item", id: "R#{review.id}L", remote: true do %>
                   <i class="fa fa-thumbs-up icon"></i> <%= review.likes.count%>
                 <% end%>
               <% else%>
-                <%= link_to like_path(id: review.id), method: "DELETE" , class: "stat-item" ,id: "R#{review.id}L", remote: true do %>
+                <%= link_to like_path(id: review.id), method: :DELETE , class: "stat-item" ,id: "R#{review.id}L", remote: true do %>
                   <i class="fa fa-thumbs-up icon"></i> <%= review.likes.count%>
                 <% end %>
               <%end%>

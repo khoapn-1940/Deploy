@@ -35,8 +35,8 @@
                   <%= link_to "English", locale:"en" %>
                   <%= link_to "Vietnamese", locale:"vi" %>
                 </div>
-                <%= form_for :q, url: search_path, method: :get do |form| %>
-                  <%= text_field_tag :q, params[:q],placeholder: "Search", id: "search" %>
+                <%= search_form_for @search, url: search_path do |f| %>
+                  <%= f.text_field :name, placeholder: "Search", id: "search"%><br>
                 <% end %>
               </div>
             </div>
@@ -44,7 +44,7 @@
               <div class="header-rightside">
                 <ul class="list-inline header-top pull-right">
                   <li class="dropdown">
-                    <% if logged_in? %>
+                    <% if can? :logout, User %>
                       <%= link_to "#", {class: "dropdown-toggle", "data-toggle": "dropdown"} do %>
                         <%= image_tag "#{current_user.avatar}" %>
                         <b class="caret"></b>
@@ -57,7 +57,7 @@
                               </p>
                               <div class="divider">
                               </div>
-                              <%= link_to t("views.tag.log_out"), logout_path, class: "view btn-sm active" %>
+                              <%= link_to t("views.tag.log_out"), destroy_user_session_path, method: :DELETE, class: "view btn-sm active" %>
                             </div>
                           </li>
                         </ul>

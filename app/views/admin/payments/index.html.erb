@@ -1,4 +1,4 @@
-<%= will_paginate @bookings %>
+<%= paginate @bookings %>
 <div id="invoice">
   <div class="invoice overflow-auto">
     <div style="min-width: 600px">
@@ -18,6 +18,7 @@
                 <%= current_user.name%>
               </a>
             </h2>
+            <div>455 Foggy Heights, AZ 85004, US</div>
             <div><%= current_user.phone%></div>
             <div><a href="mailto:<%= current_user.email %>"><%= current_user.email %></a></div>
           </div>
@@ -26,9 +27,9 @@
       <main>
         <div class="row contacts">
           <div class="col invoice-details">
-            <h1 class="invoice-id"> <%= t("views.tag.reported_time") %> </h1>
-            <div class="date"><%= t("views.tag.date_of_invoice") %> <%= l Time.now.beginning_of_month, format: :long %></div>
-            <div class="date"> <%= t("views.tag.due_date") %> <%= l Time.now.end_of_month, format: :long %></div>
+            <h1 class="invoice-id">Reported Time </h1>
+            <div class="date">Date of Invoice: <%= l Time.now.beginning_of_month, format: :long %></div>
+            <div class="date">Due Date: <%= l Time.now.end_of_month, format: :long %></div>
           </div>
         </div>
         <div class="text-left">
@@ -62,7 +63,7 @@
           </tbody>
           <tfoot>
             <td colspan="2"></td>
-            <td colspan="2"> <%= t("views.tag.total") %> </td>
+            <td colspan="2">TOTAL</td>
             <td> $<%= @sum%> </td>
           </tr>
         </tfoot>

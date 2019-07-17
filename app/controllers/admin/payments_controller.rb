@@ -1,4 +1,4 @@
-class Admin::PaymentsController < ApplicationController
+class Admin::PaymentsController < Admin::BaseController
   before_action :load_data, only: [:index]
   def index
     @sum = 0
@@ -15,14 +15,18 @@ class Admin::PaymentsController < ApplicationController
   end
 
   def time_nil
-    @bookings = Booking.joins(:payments).this_month.order_by_time_desc.paginate(
-      page: params[:page], per_page: Settings.booking_per_page_admin
+    @bookings = Booking.joins(:payments).this_month.order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.booking_per_page_admin
     )
   end
 
   def time_present
-    @bookings = Booking.joins(:payments).this_month.order_by_time_desc.paginate(
-      page: params[:page], per_page: Settings.booking_per_page_admin
+    @bookings = Booking.joins(:payments).this_month.order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.booking_per_page_admin
     )
   end
 end

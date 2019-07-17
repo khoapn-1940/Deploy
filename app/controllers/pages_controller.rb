@@ -1,24 +1,31 @@
 class PagesController < ApplicationController
   def home
-    @tour_details = TourDetail.order_by_time_desc.paginate(
-      page: params[:page],
-      per_page: Settings.index_per_page
+    authorize! :read, TourDetail
+    @search = Tour.ransack(params[:q])
+    @tour_details = TourDetail.order_by_time_desc.page(
+      params[:page]
+    ).per(
+      Settings.index_per_page
     )
   end
 
   def search
-    tour_detail_name = TourDetail.joins(:tour).where(
-      "tours.name like ? ", "%#{params[:q]}%"
-    )
-    tour_detail_description = TourDetail.joins(:tour).where(
-      "tours.description like ? ", "%#{params[:q]}%"
-    )
-    @tour_details = tour_detail_name.or(
-      tour_detail_description
-    ).order_by_time_desc.paginate(
-      page: params[:page],
-      per_page: Settings.index_per_page
-    )
+    authorize! :read, TourDetail
+    get_data
+    @tour_details = TourDetail.where(
+      tour_id: @tour.ids
+    ).order_by_time_desc.page(params[:page]).per(Settings.index_per_page)
     render :home
+  end
+
+  private
+
+  def get_data
+    Tour.ransack(params[:q])
+    @search = Tour.ransack(name_cont: params[:q][:name])
+    @tour = @search.result
+    @tour = @tour.or(
+      Tour.ransack(description_cont: params[:q][:name]).result
+    )
   end
 end

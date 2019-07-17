@@ -1,4 +1,4 @@
-<%= will_paginate @users%>
+<%= paginate @users%>
 <% @users.each do |user| %>
   <div class="container">
     <div class="row">
@@ -6,26 +6,38 @@
         <ul class="thumbnails">
           <li class="span5 clearfix" id="USER<%= user.id %>">
             <div class="thumbnail clearfix">
-              <%= link_to view_other_user_information_path(user_id: user.id) do %>
+              <% if user.deleted_at.nil? %>
+                <%= link_to view_other_user_information_path(user_id: user.id) do %>
+                  <%= image_tag "#{user.avatar}",  alt: "Avatar", class: "pull-left span2 clearfix", style: "height:200px;width:320px;padding-right:30px;"%>
+                <% end %>
+              <% else %>
                 <%= image_tag "#{user.avatar}",  alt: "Avatar", class: "pull-left span2 clearfix", style: "height:200px;width:320px;padding-right:30px;"%>
               <% end %>
               <div class="caption" class="pull-left" style="padding-left:10px;">
-                <%= link_to t("views.tag.delete"),admin_user_path(id: user.id), method: :DELETE, remote: true, class: "btn btn-danger btn-primary icon pull-right",style:"margin-left: 20px;"%>
-                <%= link_to  t("views.tag.admin"),admin_user_path(id: user.id,role: "admin"), method: :PATCH, remote: true,class: "btn btn-success icon pull-right",style:"margin-left: 20px;"%>
-                <%= link_to  t("views.tag.user"),admin_user_path(id: user.id,role: "user"), method: :PATCH, remote: true, class: "btn btn-primary icon pull-right",style:"margin-left: 20px;"%>
-                <%= link_to  t("views.tag.guest"),admin_user_path(id: user.id,role: "guess"), method: :PATCH, remote: true, class: "btn btn-info btn-primary icon pull-right",style:"margin-left: 20px;"%>
+                <% if user.deleted_at.nil? %>
+                  <%= link_to "Delete",admin_user_path(id: user.id), method: :DELETE, remote: true, class: "btn btn-danger btn-primary icon pull-right",style:"margin-left: 20px;"%>
+                  <%= link_to "Admin",admin_user_path(id: user.id,role: "admin"), method: :PATCH, remote: true,class: "btn btn-success icon pull-right",style:"margin-left: 20px;"%>
+                  <%= link_to "User",admin_user_path(id: user.id,role: "user"), method: :PATCH, remote: true, class: "btn btn-primary icon pull-right",style:"margin-left: 20px;"%>
+                  <%= link_to "Guest",admin_user_path(id: user.id,role: "guess"), method: :PATCH, remote: true, class: "btn btn-info btn-primary icon pull-right",style:"margin-left: 20px;"%>
+                <% else %>
+                  <%= link_to "Recover User",recover_user_path(id: user.id), class: "btn btn-info btn-primary icon pull-right",style:"margin-left: 20px;"%>
+                <% end%>
                 <h4>
-                  <%= link_to view_other_user_information_path(user_id: user.id) do %>
-                    <%= user.name%>
-                  <% end%>
+                  <% if user.deleted_at.nil? %>
+                    <%= link_to view_other_user_information_path(user_id: user.id) do %>
+                      <%= user.name%>
+                    <% end%>
+                  <% else %>
+                    <%= user.name%> (disable)
+                  <% end %>
                 </h4>
-                <small><b> <%=  t("views.tag.registered_at")%> </b> <%= l user.created_at, format: :long %></small><br>
-                <small><b> <%=  t("views.tag.phone_number")%> </b> <%= user.phone %></small><br>
-                <small><b><%=  t("views.tag.total_booking")%> </b> <%= user.bookings.count %></small><br>
-                <small><b><%=  t("views.tag.total_rating")%> </b> <%= user.ratings.count %></small><br>
-                <small><b><%=  t("views.tag.total_like")%> </b> <%= user.likes.count %></small><br>
-                <small><b><%=  t("views.tag.total_review")%>  </b> <%= user.reviews.count %></small><br>
-                <small id="Role<%= user.id %>"><b><%=  t("views.tag.role")%> : </b> <%= user.role %></small>
+                <small><b>Registered At: </b> <%= l user.created_at, format: :long %></small><br>
+                <small><b>Phone Number: </b> <%= user.phone %></small><br>
+                <small><b>Total Booking: </b> <%= user.bookings.count %></small><br>
+                <small><b>Total Rating: </b> <%= user.ratings.count %></small><br>
+                <small><b>Total Like: </b> <%= user.likes.count %></small><br>
+                <small><b>Total Review: </b> <%= user.reviews.count %></small><br>
+                <small id="Role<%= user.id %>"><b>Role: </b> <%= user.role %></small>
               </div>
             </div>
           </li>

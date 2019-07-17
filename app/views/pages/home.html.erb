@@ -1,16 +1,16 @@
 <div class="container">
   <% if @tour_details.present? %>
-    <%= will_paginate @tour_details %>
+    <%= paginate @tour_details %>
     <div id="products" class="row list-group">
       <% @tour_details.each do |tour_detail| %>
         <div class="item  col-xs-4 col-lg-4" style="height: 100%">
           <div class="thumbnail">
-            <% if logged_in? %>
-              <%= link_to new_tour_detail_path(tour_detail_id: tour_detail.id, tour_id: tour_detail.tour.id) do %>
+            <% if user_signed_in? %>
+              <%= link_to tour_detail_path(id: tour_detail.id, tour_id: tour_detail.tour.id) do %>
                 <%= image_tag "#{tour_detail.tour.image}",  alt: "like", class: "group list-group-image", style: "height: 400px;" %>
               <% end %>
             <% else %>
-              <%= link_to login_path do %>
+              <%= link_to new_user_session_path do %>
                 <%= image_tag "#{tour_detail.tour.image}",  alt: "like", class: "group list-group-image", style: "height: 400px;" %>
               <% end %>          <% end %>
             <div class="caption">
@@ -28,10 +28,10 @@
                 <br>
                 <%= l tour_detail.time_end, format: :long %>
                 <div class="col-xs-12 col-md-12" style="text-align: right,display: inline-block">
-                  <% if logged_in? %>
-                    <%= link_to t("views.tag.booking"), new_tour_detail_path(tour_detail_id: tour_detail.id, tour_id: tour_detail.tour.id), class: "btn btn-success" %>
+                  <% if user_signed_in? %>
+                    <%= link_to t("views.tag.booking"), tour_detail_path(id: tour_detail.id, tour_id: tour_detail.tour.id), class: "btn btn-success" %>
                   <% else %>
-                    <%= link_to t("views.tag.booking"), login_path, class: "btn btn-success" %>
+                    <%= link_to t("views.tag.booking"), new_user_session_path, class: "btn btn-success" %>
                   <% end %>
                 </div>
               </div>

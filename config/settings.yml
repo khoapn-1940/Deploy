@@ -17,3 +17,5 @@ booking_per_page : 10
 review_per_page : 10
 review_per_page_admin : 15
 tour_detail_reviews: 5
+user_per_page : 15
+tour_per_page : 15

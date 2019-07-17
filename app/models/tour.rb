@@ -1,4 +1,5 @@
 class Tour < ApplicationRecord
+  acts_as_paranoid
   mount_uploader :image, TourUploader
   belongs_to :user
   belongs_to :category
